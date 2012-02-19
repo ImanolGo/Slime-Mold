@@ -4,7 +4,7 @@
 
 //------------------------------------------------------------
 particle::particle(){
-	setInitialCondition(0,0,0,0);
+	setInitialCondition(ofPoint(0,0),ofPoint(0,0));
 	damping = 0.01f;
 	catchUpSpeed = 0.01f;
 	angle = 0;
@@ -20,22 +20,21 @@ void particle::resetForce(){
 }
 
 //------------------------------------------------------------
-void particle::addForce(float x, float y){
+void particle::addForce(ofPoint force){
     // add in a force in X and Y for this frame.
-    frc.x = frc.x + x;
-    frc.y = frc.y + y;
+    frc = frc + force;
 }
 
-void particle::addRepulsionForce(float x, float y, float radius, float scale){
+void particle::addRepulsionForce(ofPoint force, float radius, float scale){
 
 	// ----------- (1) make a vector of where this position is:
 
-	ofxVec2f posOfForce;
-	posOfForce.set(x,y);
+	ofPoint posOfForce(force);
+	//posOfForce.set(x,y);
 
 	// ----------- (2) calculate the difference & length
 
-	ofxVec2f diff	= pos - posOfForce;
+	ofPoint diff	= pos - posOfForce;
 	float length	= diff.length();
 
 	// ----------- (3) check close enough
@@ -57,16 +56,16 @@ void particle::addRepulsionForce(float x, float y, float radius, float scale){
     }
 }
 
-void particle::addAttractionForce(float x, float y, float radius, float scale){
+void particle::addAttractionForce(ofPoint force, float radius, float scale){
 
 	// ----------- (1) make a vector of where this position is:
 
-	ofxVec2f posOfForce;
-	posOfForce.set(x,y);
+	ofPoint posOfForce(force);
+	//posOfForce.set(x,y);
 
 	// ----------- (2) calculate the difference & length
 
-	ofxVec2f diff	= pos - posOfForce;
+	ofPoint diff	= pos - posOfForce;
 	float length	= diff.length();
 
 	// ----------- (3) check close enough
@@ -103,9 +102,9 @@ void particle::addDampingForce(){
 }
 
 //------------------------------------------------------------
-void particle::setInitialCondition(float px, float py, float vx, float vy){
-    pos.set(px,py);
-	vel.set(vx,vy);
+void particle::setInitialCondition(ofPoint p, ofPoint v){
+    pos = p;
+	vel = v;
 }
 
 //------------------------------------------------------------
@@ -137,11 +136,11 @@ void particle::draw(){
 	glPopMatrix();
 }
 
-void particle::particleToPoint(float catchX, float catchY){
+void particle::particleToPoint(ofPoint catchPoint){
 
 	prevPos = pos;
-	pos.x = catchUpSpeed * catchX + (1-catchUpSpeed) * pos.x;
-	pos.y = catchUpSpeed * catchY + (1-catchUpSpeed) * pos.y;
+	pos.x = catchUpSpeed * catchPoint.x + (1-catchUpSpeed) * pos.x;
+	pos.y = catchUpSpeed * catchPoint.y + (1-catchUpSpeed) * pos.y;
 	angle = atan2(pos.y - prevPos.y, pos.x - prevPos.x);
 
 }

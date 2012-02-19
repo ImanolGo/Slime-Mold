@@ -17,17 +17,17 @@ class particle
 		virtual ~particle(){};
 
         void resetForce();
-		void addForce(float x, float y);
+		void addForce(ofPoint force);
 
-		void addRepulsionForce(float x, float y, float radius, float scale);
-		void addAttractionForce(float x, float y, float radius, float scale);
+		void addRepulsionForce(ofPoint force, float radius, float scale);
+		void addAttractionForce(ofPoint force, float radius, float scale);
 
 		void addDampingForce();
 
-		void setInitialCondition(float px, float py, float vx, float vy);
+		void setInitialCondition(ofPoint p, ofPoint v);
         void update();
         void draw();
-        void particleToPoint(float catchX, float catchY);
+        void particleToPoint(ofPoint catchPoint);
 
 		void bounceOffWalls();
 		float damping;

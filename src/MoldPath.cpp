@@ -28,7 +28,7 @@ void MoldPath::setup(float aFromX, float aFromY, float aToX, float aToY, ofColor
 	branchAngleMultiplier = 1.3;//1.6;
 	branchScale = 0.8;
 	branchIntensityFactor = 0.7;//0.5;
-    m_width = 3.0f;
+    m_width = 1.0f;
     m_initialized = true;
 }
 
